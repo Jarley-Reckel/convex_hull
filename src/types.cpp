@@ -51,3 +51,4 @@ float Straight::getLength() {
     int yDistance = Point_2.getY() - Point_1.getY();
     return findNorm(xDistance, yDistance);
 }
+
