@@ -3,6 +3,8 @@
 
 #include <cmath>
 
+#define PI 3.14159265
+
 class Point {
     
     public:
@@ -12,6 +14,8 @@ class Point {
         int getX();
         int getY();
         float getRadius();
+        float getThetaRadians();
+        float getThetaDegree();
 
     private:
         int X;

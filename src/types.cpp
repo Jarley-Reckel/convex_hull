@@ -1,10 +1,14 @@
 #include "types.hpp"
 #include<cmath>
 
-float findNorm(int x, int y) {
+float vetorialNorm(int x, int y) {
     return sqrt(x*x + y*y);
 }
 
+int axisDistance(int begin, int end) {
+    int diference = end - begin;
+    return int(sqrt(diference*diference));
+}
 
 Point::Point() {
     X = 0;
@@ -25,7 +29,15 @@ int Point::getY() {
 }
 
 float Point::getRadius() {
-    return findNorm(X,Y);
+    return vetorialNorm(X,Y);
+}
+
+float Point::getThetaRadians() {
+    return atan(Y/X);
+}
+
+float Point::getThetaDegree() {
+    return atan(Y/X) * 180 / PI;
 }
 
 Straight::Straight() {
@@ -47,8 +59,7 @@ Point Straight::getPoint_2() {
 }
 
 float Straight::getLength() {
-    int xDistance = Point_2.getX() - Point_1.getX();
-    int yDistance = Point_2.getY() - Point_1.getY();
-    return findNorm(xDistance, yDistance);
+    int xDistance = axisDistance(Point_2.getX(), Point_1.getX());
+    int yDistance = axisDistance(Point_2.getY(), Point_1.getY());
+    return vetorialNorm(xDistance, yDistance);
 }
-
