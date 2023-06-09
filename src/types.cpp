@@ -21,23 +21,23 @@ Point::Point(int x, int y) {
     Y = y;
 }
 
-int Point::getX() {
+int Point::GetX() {
     return X;
 }
 
-int Point::getY() {
+int Point::GetY() {
     return Y;
 }
 
-float Point::getRadius() {
+float Point::GetRadius() {
     return vetorialNorm(X,Y);
 }
 
-float Point::getThetaRadians() {
+float Point::GetThetaRadians() {
     return atan(Y/X);
 }
 
-float Point::getThetaDegree() {
+float Point::GetThetaDegree() {
     return atan(Y/X) * 180 / PI;
 }
 
@@ -51,18 +51,24 @@ Straight::Straight(Point point_1, Point point_2) {
     Point_2 = point_2;
 }
 
-Point Straight::getPoint_1() {
+Point Straight::GetPoint_1() {
     return Point_1;
 }
 
-Point Straight::getPoint_2() {
+Point Straight::GetPoint_2() {
     return Point_2;
 }
 
-float Straight::getLength() {
-    int xDistance = axisDistance(Point_2.getX(), Point_1.getX());
-    int yDistance = axisDistance(Point_2.getY(), Point_1.getY());
+float Straight::GetLength() {
+    int xDistance = axisDistance(Point_2.GetX(), Point_1.GetX());
+    int yDistance = axisDistance(Point_2.GetY(), Point_1.GetY());
     return vetorialNorm(xDistance, yDistance);
+}
+
+float Straight::GetAngle() {
+    int x = Point_2.GetX() - Point_1.GetX();
+    int y = Point_2.GetY() - Point_1.GetY();
+    return atan(y/x);
 }
 
 TypeItem::TypeItem() {
@@ -92,7 +98,7 @@ Point TypeItem::GetContent() {
 }
 
 void TypeItem::Print() {
-    std::cout << content.getX() << ' ' << content.getY() << std::endl;
+    std::cout << content.GetX() << ' ' << content.GetY() << std::endl;
 }
 
 TypeCell::TypeCell() {

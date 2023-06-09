@@ -11,11 +11,11 @@ class Point {
         Point();
         Point(int x, int y);
 
-        int getX();
-        int getY();
-        float getRadius();
-        float getThetaRadians();
-        float getThetaDegree();
+        int GetX();
+        int GetY();
+        float GetRadius();
+        float GetThetaRadians();
+        float GetThetaDegree();
 
     private:
         int X;
@@ -31,9 +31,10 @@ class Straight {
         Straight();
         Straight(Point point_1, Point point_2);
 
-        Point getPoint_1();
-        Point getPoint_2();
-        float getLength();
+        Point GetPoint_1();
+        Point GetPoint_2();
+        float GetLength();
+        float GetAngle();
 
     private:
         Point Point_1;
