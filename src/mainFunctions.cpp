@@ -19,8 +19,7 @@ int defineNumberOfLines(std::ifstream& inputFile) {
         std::string trash;
         std::getline(inputFile, trash);
     }
-    inputFile.seekg(0, std::ios_base::beg);
-    return lines;
+    return lines - 1;
 }
 
 Point stringToPoint(std::string line) {
@@ -43,20 +42,20 @@ Point stringToPoint(std::string line) {
     return point;
 }
 
-Point* pickPointsInFile(std::string fileName) {
+Point* pickPointsInFile(std::string fileName, int &numberOfPoints) {
     std::ifstream inputFile;
     inputFile.open(fileName);
     if(!inputFile.is_open())
         throw unopened_file();
-    int lines = defineNumberOfLines(inputFile);
+    numberOfPoints = defineNumberOfLines(inputFile);
     inputFile.close();
 
     inputFile.open(fileName);
     if(!inputFile.is_open())
         throw unopened_file();
 
-    Point* points = new Point[lines]();
-    for(int i = 0; i < lines - 1; i++) {
+    Point* points = new Point[numberOfPoints]();
+    for(int i = 0; i < numberOfPoints; i++) {
         std::string line;
         std::getline(inputFile, line);
         points[i] = stringToPoint(line);

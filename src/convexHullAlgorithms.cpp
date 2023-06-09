@@ -4,6 +4,20 @@
 #include "structs.hpp"
 #include <iostream>
 
+float orientation(Point pivot, Point curent, Point next) {
+    float vetorialProduct = (curent.GetY() - pivot.GetY()) * (next.GetX() - curent.GetX()) -
+                          (curent.GetX() - pivot.GetX()) * (next.GetY() - curent.GetY());
+    return vetorialProduct;
+}
+
+Point nextToTop(LinkedStack& stack) {
+    TypeItem aux = stack.Pop();
+    Point next = stack.GetTop().GetContent();
+    stack.Push(aux);
+    return next;
+}
+
+
 ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
     TypeItem pivot = TypeItem(points[0], 0);
     int pivotPosition = 0;
@@ -40,13 +54,31 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
         bucketSort(itens, size - 1, 4);
     }
 
+    int m = 1;
+    for(int i = 0; i < size - 1; i++){
+        while (i < size-1 && orientation(pivot.GetContent(), points[i], points[i+1]) == 0) {
+            i++;
+        }
+        points[m] = points[i];
+        m++;        
+    }
+    if(m < 3) return;
+
     LinkedStack ConvexHullPoints;
     ConvexHullPoints.Push(pivot);
     ConvexHullPoints.Push(itens[0]);
-    for(int i = 0; i < size - 1; i++){
-        //TODO
-    }
+    ConvexHullPoints.Push(itens[1]);
 
+    for(int i = 0; i < m; i++) {
+        while(ConvexHullPoints.GetSize() > 1 && 
+               orientation(nextToTop(ConvexHullPoints), ConvexHullPoints.GetTop().GetContent(), points[i]) < 0) {
+            ConvexHullPoints.Pop();
+        }
+        ConvexHullPoints.Push(itens[i]);
+    }    
 
     delete(itens);
+
+    ConvexHull convexHull = ConvexHull(ConvexHullPoints);
+    return convexHull;
 }

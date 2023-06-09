@@ -20,7 +20,7 @@ class unopened_file : public std::exception {
 
 std::ifstream openFile(std::string fileName);
 
-Point* pickPointsInFile(std::string fileName);
+Point* pickPointsInFile(std::string fileName, int &numberOfPoints);
 
 
 #endif

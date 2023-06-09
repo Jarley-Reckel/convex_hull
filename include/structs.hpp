@@ -13,6 +13,7 @@ class Stack
         virtual void Push(TypeItem item) = 0;
         virtual TypeItem Pop() = 0;
         virtual void Clean() = 0;
+        virtual TypeItem GetTop() = 0;
     
     protected:
         int size;
@@ -27,6 +28,7 @@ class LinkedStack : public Stack
         void Push(TypeItem item);
         TypeItem Pop();
         void Clean();
+        TypeItem GetTop();
 
     private:
         TypeCell* top;

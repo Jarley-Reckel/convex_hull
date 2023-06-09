@@ -44,3 +44,9 @@ void LinkedStack::Clean()
     while (!EmptyStack())
         Pop();
 }
+
+TypeItem LinkedStack::GetTop() {
+    TypeItem top = this->Pop();
+    this->Push(top);
+    return top;
+}

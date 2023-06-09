@@ -44,15 +44,24 @@ class Straight {
 };
 
 class ConvexHull {
+    public:
+        ConvexHull();
+        ConvexHull(LinkedStack stackPoints);
 
-    //TODO implemente this class when know what the needs are
+        int GetNumberOfPoints();
+        Point* GetPoints();
+        Straight* GetStraight();
+
+    private:
+        int numberOfPoints;
+        Point* points;
+        Straight* straights;
 };
 
 
 typedef float TypeKey;
 
-class TypeItem
-{
+class TypeItem {
     public:
         TypeItem();
         TypeItem(Point point, float angle);
@@ -67,8 +76,7 @@ class TypeItem
         Point content;
 };
 
-class TypeCell
-{
+class TypeCell {
     public:
         TypeCell();
 
