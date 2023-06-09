@@ -3,19 +3,13 @@
 #include "structs.hpp"
 #include <iostream>
 #include <fstream>
+#include <string>
 
-
-
-void checkPassArgument(int argc) {
+bool checkPassArgument(int argc) {
     if(argc < 2) 
-        throw std::invalid_argument("Pass a file");
-}
-
-std::ifstream openFile(std::string fileName) {
-    std::ifstream inputFile(fileName);
-    if(!inputFile.is_open())
-        throw unopened_file();
-    return inputFile;
+        return false;
+    else
+        return true;
 }
 
 int defineNumberOfLines(std::ifstream& inputFile) {
@@ -25,7 +19,7 @@ int defineNumberOfLines(std::ifstream& inputFile) {
         std::string trash;
         std::getline(inputFile, trash);
     }
-    inputFile.seekg(0, inputFile.beg);
+    inputFile.seekg(0, std::ios_base::beg);
     return lines;
 }
 
@@ -35,10 +29,10 @@ Point stringToPoint(std::string line) {
     int lineIterator = 0;
     do{
         if(line[lineIterator] == ' ') {
-            xyCoordinates[0] = stoi(aux);
+            xyCoordinates[0] = std::stoi(aux);
             aux = "";
         } else if(line[lineIterator] == '\0') {
-            xyCoordinates[1] = stoi(aux);
+            xyCoordinates[1] = std::stoi(aux);
         } else {
             aux += line[lineIterator];
         }
@@ -49,14 +43,24 @@ Point stringToPoint(std::string line) {
     return point;
 }
 
-Point* definePoints(std::ifstream& inputFile) {
+Point* pickPointsInFile(std::string fileName) {
+    std::ifstream inputFile;
+    inputFile.open(fileName);
+    if(!inputFile.is_open())
+        throw unopened_file();
     int lines = defineNumberOfLines(inputFile);
-    Point* points = new Point[lines]();
+    inputFile.close();
 
-    for(int i = 0; i < lines; i++) {
+    inputFile.open(fileName);
+    if(!inputFile.is_open())
+        throw unopened_file();
+
+    Point* points = new Point[lines]();
+    for(int i = 0; i < lines - 1; i++) {
         std::string line;
-        getline(inputFile, line);
+        std::getline(inputFile, line);
         points[i] = stringToPoint(line);
     }
-    return points;    
+    inputFile.close();
+    return points;
 }

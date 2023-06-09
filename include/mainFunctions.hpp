@@ -8,18 +8,19 @@
 #include <exception>
 
 
-void checkPassArgument(int argc);
+bool checkPassArgument(int argc);
 
 class unopened_file : public std::exception {
 
     public:
         virtual const char* what() const throw() { 
-            return "Erro: Can't open 5";
+            return "Erro: Can't open file!";
         }
 };
 
 std::ifstream openFile(std::string fileName);
 
-Point* definePoints(std::ifstream& inputFile);
+Point* pickPointsInFile(std::string fileName);
+
 
 #endif

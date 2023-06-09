@@ -1,5 +1,6 @@
 #include "types.hpp"
-#include<cmath>
+#include <cmath>
+#include <iostream>
 
 float vetorialNorm(int x, int y) {
     return sqrt(x*x + y*y);
@@ -62,4 +63,55 @@ float Straight::getLength() {
     int xDistance = axisDistance(Point_2.getX(), Point_1.getX());
     int yDistance = axisDistance(Point_2.getY(), Point_1.getY());
     return vetorialNorm(xDistance, yDistance);
+}
+
+TypeItem::TypeItem() {
+    content = Point();
+    key = -1;
+}
+
+TypeItem::TypeItem(Point point, float angle) {
+    content = point;
+    key = angle;
+}
+
+void TypeItem::SetKey(float angle) {
+    key = angle;
+}
+
+void TypeItem::SetContent(Point point) {
+    content = point;
+}
+
+float TypeItem::GetKey() {
+    return key;
+}
+
+Point TypeItem::GetContent() {
+    return content;
+}
+
+void TypeItem::Print() {
+    std::cout << content.getX() << ' ' << content.getY() << std::endl;
+}
+
+TypeCell::TypeCell() {
+    item.SetContent(Point());
+    next = nullptr;
+}
+
+TypeItem TypeCell::GetItem() {
+    return item;
+}
+
+TypeCell *TypeCell::GetNext() {
+    return next;
+}
+
+void TypeCell::SetItem(TypeItem newItem) {
+    item = newItem;
+}
+
+void TypeCell::SetNext(TypeCell *cell) {
+    next = cell;
 }
