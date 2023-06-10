@@ -1,5 +1,5 @@
 #include "sortingAlgorithms.hpp"
-#include "structs.hpp"
+#include "item.hpp"
 #include "types.hpp"
 
 
@@ -75,6 +75,9 @@ void mergeSort(TypeItem* points, int first, int last) {
 
 void bucketSort(TypeItem* points, int numberOfPoints, int numberOfBuckets) {
     int pointsInBuckets = numberOfPoints / numberOfBuckets;
+    if(numberOfPoints % numberOfBuckets != 0) {
+        pointsInBuckets++;
+    }
     TypeItem **buckets = new TypeItem*[numberOfBuckets];
     for(int i = 0; i < numberOfBuckets; i++) {
         buckets[i] = new TypeItem[pointsInBuckets];

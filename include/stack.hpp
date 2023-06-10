@@ -1,7 +1,23 @@
-#ifndef STRUCTS
-#define STRUCTS
+#ifndef STACK
+#define STACK
 
-#include "types.hpp"
+#include "item.hpp"
+
+class TypeCell {
+    public:
+        TypeCell();
+
+        TypeItem GetItem();
+        TypeCell* GetNext();
+        void SetItem(TypeItem newItem);
+        void SetNext(TypeCell *cell);
+
+    private:
+        TypeItem item;
+        TypeCell *next;
+
+    friend class LinkedStack;
+};
 
 class Stack
 {

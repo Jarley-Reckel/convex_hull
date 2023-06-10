@@ -2,7 +2,6 @@
 #define MAINFUNCTIONS
 
 #include "types.hpp"
-#include "structs.hpp"
 #include <iostream>
 #include <fstream>
 #include <exception>

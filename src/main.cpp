@@ -21,9 +21,13 @@ int main(int argc, char **argv) {
         return 1;        
     }    
 
-    ConvexHull grahamInsertion = grahamScan(points, numberOfPoints, "insertionSort");
-    ConvexHull grahamMerge = grahamScan(points, numberOfPoints, "mergeSort");
-    ConvexHull grahamBucket = grahamScan(points, numberOfPoints, "bucketSort");
+    try{
+        ConvexHull grahamInsertion = grahamScan(points, numberOfPoints, "insertionSort");
+        ConvexHull grahamMerge = grahamScan(points, numberOfPoints, "mergeSort");
+        ConvexHull grahamBucket = grahamScan(points, numberOfPoints, "bucketSort");
+    } catch (insuficient_points& error){
+        std::cout << error.what() << std::endl;
+    }
 
     return 0;
 }

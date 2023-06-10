@@ -1,7 +1,7 @@
 #ifndef SORTINGALGORITHMS
 #define SORTINGALGORITHMS
 
-#include "types.hpp"
+#include "item.hpp"
 
 void InsertionSort(TypeItem *v, int n);
 

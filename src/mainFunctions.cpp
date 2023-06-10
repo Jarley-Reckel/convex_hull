@@ -1,6 +1,5 @@
 #include "mainFunctions.hpp"
 #include "types.hpp"
-#include "structs.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -26,17 +25,18 @@ Point stringToPoint(std::string line) {
     std::string aux = "";
     int xyCoordinates[2];
     int lineIterator = 0;
-    do{
+    while(true) {
         if(line[lineIterator] == ' ') {
             xyCoordinates[0] = std::stoi(aux);
             aux = "";
         } else if(line[lineIterator] == '\0') {
             xyCoordinates[1] = std::stoi(aux);
+            break;
         } else {
             aux += line[lineIterator];
         }
         lineIterator++;
-    } while(line[lineIterator] != '\0');
+    }
 
     Point point = Point(xyCoordinates[0], xyCoordinates[1]);
     return point;

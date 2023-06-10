@@ -1,8 +1,11 @@
 #include "convexHullAlgorithms.hpp"
 #include "sortingAlgorithms.hpp"
 #include "types.hpp"
-#include "structs.hpp"
+#include "stack.hpp"
+#include "item.hpp"
+#include "convexHull.hpp"
 #include <iostream>
+
 
 float orientation(Point pivot, Point curent, Point next) {
     float vetorialProduct = (curent.GetY() - pivot.GetY()) * (next.GetX() - curent.GetX()) -
@@ -41,17 +44,22 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
         }
         int x = points[i].GetX() - pivot.GetContent().GetX();
         int y = points[i].GetY() - pivot.GetContent().GetY();
-        float angle = atan(y/x);
+        float angle;
+        if(x == 0) {
+            angle = PI;
+        } else {
+            angle = atan(y/x);
+        }
         itens[itemPosition] = TypeItem(points[i], angle);
         itemPosition++;
     }
 
     if(sortingAlgorithm == "insertionSort") {
-        InsertionSort(itens, size - 1);
+        InsertionSort(itens, size);
     } else if(sortingAlgorithm == "mergeSort") {
-        mergeSort(itens, 0, size - 1);
+        mergeSort(itens, 0, size);
     } else if(sortingAlgorithm == "bucketSort") {
-        bucketSort(itens, size - 1, 4);
+        bucketSort(itens, size, 4);
     }
 
     int m = 1;
@@ -62,7 +70,9 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
         points[m] = points[i];
         m++;        
     }
-    if(m < 3) return;
+    if(m < 3) {
+        throw insuficient_points();
+    }
 
     LinkedStack ConvexHullPoints;
     ConvexHullPoints.Push(pivot);

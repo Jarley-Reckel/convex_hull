@@ -1,6 +1,27 @@
-#include "structs.hpp"
+#include "stack.hpp"
 #include <iostream>
 
+
+TypeCell::TypeCell() {
+    item.SetContent(Point());
+    next = nullptr;
+}
+
+TypeItem TypeCell::GetItem() {
+    return item;
+}
+
+TypeCell *TypeCell::GetNext() {
+    return next;
+}
+
+void TypeCell::SetItem(TypeItem newItem) {
+    item = newItem;
+}
+
+void TypeCell::SetNext(TypeCell *cell) {
+    next = cell;
+}
 
 LinkedStack::LinkedStack() : Stack()
 {
@@ -33,7 +54,6 @@ TypeItem LinkedStack::Pop()
     aux = top->GetItem();
     p = top;
     top = top->GetNext();
-    delete p;
     size--;
 
     return aux;
