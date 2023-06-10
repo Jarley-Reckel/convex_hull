@@ -3,7 +3,7 @@
 #include "types.hpp"
 
 
-void InsertionSort(TypeItem* item, int size) {
+void InsertionSort(TypeItem*& item, int size) {
     TypeItem aux;
     for (int i = 1; i < size; i++) {
         aux = item[i];

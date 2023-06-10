@@ -7,10 +7,13 @@
 #include <iostream>
 
 
-float orientation(Point pivot, Point curent, Point next) {
-    float vetorialProduct = (curent.GetY() - pivot.GetY()) * (next.GetX() - curent.GetX()) -
-                          (curent.GetX() - pivot.GetX()) * (next.GetY() - curent.GetY());
-    return vetorialProduct;
+float orientation(Point next, Point top, Point curent) {
+    float vetorialProduct = (top.GetY() - next.GetY()) * (curent.GetX() - top.GetX()) -
+                            (top.GetX() - next.GetX()) * (curent.GetY() - top.GetY());
+    if(vetorialProduct == 0) {
+        return 0;
+    }
+    return (vetorialProduct > 0)? 1:2;
 }
 
 Point nextToTop(LinkedStack& stack) {
@@ -36,23 +39,24 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
         }
     }
 
-    TypeItem* itens = new TypeItem[size - 1]();
-    int itemPosition = 0;
+    TypeItem* itens = new TypeItem[size]();
+    int itemPosition = 1;
     for(int i = 0; i < size; i++) {
         if(i == pivotPosition) {
             continue;
         }
-        int x = points[i].GetX() - pivot.GetContent().GetX();
-        int y = points[i].GetY() - pivot.GetContent().GetY();
+        float x = points[i].GetX() - pivot.GetContent().GetX();
+        float y = points[i].GetY() - pivot.GetContent().GetY();
         float angle;
         if(x == 0) {
-            angle = PI;
+            angle = PI/2;
         } else {
             angle = atan(y/x);
         }
         itens[itemPosition] = TypeItem(points[i], angle);
         itemPosition++;
     }
+    itens[0] = pivot;
 
     if(sortingAlgorithm == "insertionSort") {
         InsertionSort(itens, size);
@@ -63,11 +67,12 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
     }
 
     int m = 1;
-    for(int i = 0; i < size - 1; i++){
-        while (i < size-1 && orientation(pivot.GetContent(), points[i], points[i+1]) == 0) {
+    for(int i = 1; i < size; i++){
+        while (i < size && orientation(pivot.GetContent(), itens[i].GetContent(), itens[i+1].GetContent()) == 0) {
+            itens[i+1] = itens[i];
             i++;
         }
-        points[m] = points[i];
+        itens[m] = itens[i];
         m++;        
     }
     if(m < 3) {
@@ -75,14 +80,17 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
     }
 
     LinkedStack ConvexHullPoints;
-    ConvexHullPoints.Push(pivot);
     ConvexHullPoints.Push(itens[0]);
     ConvexHullPoints.Push(itens[1]);
+    ConvexHullPoints.Push(itens[2]);
 
-    for(int i = 0; i < m; i++) {
-        while(ConvexHullPoints.GetSize() > 1 && 
-               orientation(nextToTop(ConvexHullPoints), ConvexHullPoints.GetTop().GetContent(), points[i]) < 0) {
+    for(int i = 3; i <= m; i++) {
+        Point top = ConvexHullPoints.GetTop().GetContent();
+        Point next = nextToTop(ConvexHullPoints);
+        while(ConvexHullPoints.GetSize() > 1 && orientation(next, top, itens[i].GetContent()) != 2) {
             ConvexHullPoints.Pop();
+            top = ConvexHullPoints.GetTop().GetContent();
+            next = nextToTop(ConvexHullPoints);
         }
         ConvexHullPoints.Push(itens[i]);
     }    

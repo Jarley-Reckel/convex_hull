@@ -3,7 +3,7 @@
 
 #include "item.hpp"
 
-void InsertionSort(TypeItem *v, int n);
+void InsertionSort(TypeItem*& item, int size);
 
 void mergeSort(TypeItem* points, int first, int last);
 
