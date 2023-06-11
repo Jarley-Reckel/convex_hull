@@ -12,6 +12,7 @@ class ConvexHull {
         int GetNumberOfPoints();
         Point* GetPoints();
         Straight* GetStraight();
+        void Print();
 
     private:
         int numberOfPoints;

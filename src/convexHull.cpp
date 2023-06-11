@@ -1,5 +1,6 @@
 #include "convexHull.hpp"
 #include "stack.hpp"
+#include <iostream>
 
 ConvexHull::ConvexHull() {
     numberOfPoints = 0;
@@ -40,4 +41,10 @@ Point* ConvexHull::GetPoints() {
 
 Straight* ConvexHull::GetStraight() {
     return straights;
+}
+
+void ConvexHull::Print() {
+    for(int i = numberOfPoints - 1; i >= 0; i--) {
+        std::cout << points[i].GetX() << " " << points[i].GetY() << std::endl;
+    }
 }
