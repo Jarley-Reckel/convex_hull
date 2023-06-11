@@ -1,6 +1,7 @@
 #include "sortingAlgorithms.hpp"
 #include "item.hpp"
 #include "types.hpp"
+#include "list.hpp"
 
 
 void InsertionSort(TypeItem*& item, int size) {
@@ -16,7 +17,7 @@ void InsertionSort(TypeItem*& item, int size) {
   }
 }
 
-void merge(TypeItem* points, int first, int middle, int last) {
+void merge(TypeItem*& points, int first, int middle, int last) {
     int leftSize = middle - first + 1;
     int rightSize = last - middle;
 
@@ -28,10 +29,10 @@ void merge(TypeItem* points, int first, int middle, int last) {
     int pointsIterator;
 
     for(leftIterator = 0; leftIterator < leftSize; leftIterator++) {
-        leftPoints[leftIterator] = points[middle + leftIterator];
+        leftPoints[leftIterator] = points[first + leftIterator];
     }
-    for(int rightIterator = 0; rightIterator < leftSize; rightIterator++) {
-        leftPoints[rightIterator] = points[middle + rightIterator + 1];
+    for(rightIterator = 0; rightIterator < rightSize; rightIterator++) {
+        rightPoints[rightIterator] = points[middle + rightIterator + 1];
     }
 
     leftIterator = 0;
@@ -59,59 +60,40 @@ void merge(TypeItem* points, int first, int middle, int last) {
         pointsIterator++;
     }
     
-    free(leftPoints);
-    free(rightPoints);
+    delete[] leftPoints;
+    delete[] rightPoints;
 }
 
-void mergeSort(TypeItem* points, int first, int last) {
+void mergeSort(TypeItem* itens, int first, int last) {
     int middle;
     if(first < last) {
         middle = (first + last) / 2;
-        mergeSort(points, first, middle);
-        mergeSort(points, middle + 1, last);
-        merge(points, first, middle, last);
+        mergeSort(itens, first, middle);
+        mergeSort(itens, middle + 1, last);
+        merge(itens, first, middle, last);
     }
 }
 
 void bucketSort(TypeItem* points, int numberOfPoints, int numberOfBuckets) {
-    int pointsInBuckets = numberOfPoints / numberOfBuckets;
-    if(numberOfPoints % numberOfBuckets != 0) {
-        pointsInBuckets++;
-    }
-    TypeItem **buckets = new TypeItem*[numberOfBuckets];
-    for(int i = 0; i < numberOfBuckets; i++) {
-        buckets[i] = new TypeItem[pointsInBuckets];
+    LinkedList *buckets = new LinkedList[numberOfBuckets];
+    for(int i = 0; i < numberOfPoints; i++) {
+        int putInBucket = static_cast<int>((points[i].GetKey() / PI) * numberOfBuckets);
+        buckets[putInBucket].InsertEnd(points[i]);
     }
 
-    for(int i = 0; i < numberOfPoints; i++) {
-        int putInBucket = static_cast<int>(points[i].GetKey() / pointsInBuckets);
+    int indexPoints = 0;
+    for(int i = 0; i < numberOfBuckets; i++) {
+        int size = buckets[i].GetSize();
+        TypeItem* auxPoints = new TypeItem[size];
         int j = 0;
-        while(putInBucket < pointsInBuckets) {
-            if(buckets[putInBucket][j].GetKey() == -1) {
-                buckets[putInBucket][j] = points[i];
-                break;
-            }
-            j++;
+        while(!buckets[i].Empty()) {        
+            auxPoints[j++] = buckets[i].RemoveBegin();    
+        }
+        mergeSort(auxPoints, 0, size-1);
+        for(j = 0; j < size; j++) {
+            points[indexPoints++] = auxPoints[j];
         }        
     }
 
-    for(int i = 0; i < numberOfBuckets; i++) {
-        mergeSort(buckets[i], 0, pointsInBuckets);
-    }
-
-    int indexBucket = 0;
-    for(int i = 0; i < numberOfBuckets; i++) {
-        for(int j = 0; j < pointsInBuckets; j++) {
-            if(buckets[i][j].GetKey() == -1) {
-                break;
-            }
-            points[indexBucket] = buckets[i][j];
-            indexBucket++;
-        }
-    }
-
-    for(int i = 0; i < numberOfBuckets; i++) {
-        delete[] buckets[i];
-    }
     delete[] buckets;
 }

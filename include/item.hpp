@@ -20,4 +20,20 @@ class TypeItem {
         Point content;
 };
 
+class TypeCell {
+    public:
+        TypeCell();
+
+        TypeItem GetItem();
+        TypeCell* GetNext();
+        void SetItem(TypeItem newItem);
+        void SetNext(TypeCell *cell);
+
+    private:
+        TypeItem item;
+        TypeCell *next;
+
+    friend class LinkedStack;
+};
+
 #endif

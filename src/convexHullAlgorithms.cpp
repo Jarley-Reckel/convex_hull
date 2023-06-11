@@ -61,7 +61,7 @@ ConvexHull grahamScan(Point* points, int size, std::string sortingAlgorithm) {
     if(sortingAlgorithm == "insertionSort") {
         InsertionSort(itens, size);
     } else if(sortingAlgorithm == "mergeSort") {
-        mergeSort(itens, 0, size);
+        mergeSort(itens, 0, size-1);
     } else if(sortingAlgorithm == "bucketSort") {
         bucketSort(itens, size, 4);
     }
